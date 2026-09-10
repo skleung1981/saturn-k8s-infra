@@ -9,13 +9,13 @@ spec:
     - ReadWriteOnce
   persistentVolumeReclaimPolicy: Retain
   hostPath:
-    path: /opt/saturn-cicd/postgres
+    path: /opt/saturn-middleware/postgres
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: postgres-pv-claim
-  namespace: saturn-cicd
+  namespace: saturn-app
   labels:
     app: postgres
 spec:
@@ -29,7 +29,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: postgres
-  namespace: saturn-cicd
+  namespace: saturn-app
 spec:
   replicas: 1
   strategy:
@@ -74,7 +74,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: postgres-service
-  namespace: saturn-cicd
+  namespace: saturn-app
 spec:
   selector:
     app: postgres
