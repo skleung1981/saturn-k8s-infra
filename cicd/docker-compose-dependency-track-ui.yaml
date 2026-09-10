@@ -1,0 +1,19 @@
+version: '3.8'
+
+services:
+  dependency-track-ui:
+    image: dependencytrack/frontend:5.0.4
+    container_name: dependency-track-ui
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    environment:
+      - API_BASE_URL=https://saturn:30088/cicd/dependency-track-api
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 512M
+        reservations:
+          cpus: '0.1'
+          memory: 128M
