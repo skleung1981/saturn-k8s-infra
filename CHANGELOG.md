@@ -12,5 +12,6 @@ v1.0.0 - First full setup for saturn ci/cd locally
     - Support Docker
 - Nexus 
     - Support Java, Python and Docker
+- Dependency Track (API)
 
 

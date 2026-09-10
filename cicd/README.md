@@ -15,8 +15,16 @@ cat saturn-local.key.pem saturn-local.cert.pem > saturn-local.full.pem
 
 The files are required to the following
 - Import it to local JVM
+
+```
+cd tls
+sudo keytool -importcert -alias saturn-nexus -file saturn-local.cert.pem -keystore /usr/lib/jvm/java-25-openjdk/lib/security/cacerts -storepass changeit -noprompt  
+```
+
 - Nexus
+    - In the nexus portal, you should import the cert.    
 - K8S (Ingress)
+    - Please follow the step 'mport the Self-signed cert to K8S'
 
 
 ### K8S setup
@@ -90,7 +98,7 @@ kubectl apply -f postgres.yaml
 
 #### Storage
 - Path: /mnt/saturn-cicd/nexus
-- Size (GB): 400GB
+- Size (GB): 400
 
 #### Steps
 
@@ -114,7 +122,7 @@ The jenkins support to build java and python projects
 
 #### Storage
 - Path: /mnt/saturn-cicd-sec/jenkins
-- Size (GB): 150GB
+- Size (GB): 150
 
 #### Steps
 
@@ -128,9 +136,10 @@ kubectl apply -f jenkins.yaml
 - Additional Plugins
     - Configure Manager
 - Maven (3.9.16)
-    - Setting file for repo    
+    - Setting file for repo
+    - Set Install automatically    
 - Docker (29.7.2)
-    
+    - Set Install automatically
 
 ### Dependency-Track (API)
 <To be filled>
