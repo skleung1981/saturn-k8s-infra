@@ -1,26 +1,35 @@
 # Local Linux Server (Saturn) running K8S for CI/CD
 
-For reference only about how I build my local development.
+For reference only about how I build my local development CI/CD on my PC (saturn) using K8S
 
 ## Installation
 
 ### Self-signed Certificate 
 
-A self-signed certificate is required in different area.. Please read the steps.md in the tls folder
+A self-signed certificate is required in different area. Please use the below command to create a self-signed cert.
+
+```
+openssl req -x509 -newkey rsa:2048 -nodes -keyout saturn-local.key.pem -out saturn-local.cert.pem -days 3650
+cat saturn-local.key.pem saturn-local.cert.pem > saturn-local.full.pem
+```
+
+The files are required to the following
 - Import it to local JVM
 - Nexus
 - K8S (Ingress)
 
 
-
 ### K8S setup
-TBC
+
+<To be filled>
 
 #### Requirements
 - No swap
 - No selinux (Disable)
 
 #### Create a namespce for Saturn CI/CD
+
+A namespace is recommended so all components are classified by different namespace. 
 
 ```
 kubectl create namespace saturn-cicd
@@ -51,13 +60,14 @@ Add the following line in the args section
 ### Postgres
 It is used to store data for local ci/cd services such as Forgejo, Dependency Track and etc.
 
-#### Local user/group
-- Username (UID): 
-- Group (GID): 
+#### Local user/group (Optional)
+Make sure a correct permission is applied.
+- Username (UID): cicd-postgres (967)
+- Group (GID): cicd (5000)
 
 #### Storage
-- Path:
-- Size (GB):
+- Path: /opt/saturn-cicd/postgres
+- Size (GB): 30
 
 #### Steps
 
@@ -72,16 +82,19 @@ kubectl apply -f postgres.yaml
 ```
 
 ### Nexus
+<To be filled>
+
 #### Local user/group
-- Username (UID): 
-- Group (GID): 
+- Username (UID): cicd-nexus (200)
+- Group (GID): cicd (5000)
 
 #### Storage
-- Path:
-- Size (GB):
+- Path: /mnt/saturn-cicd/nexus
+- Size (GB): 400GB
 
 #### Steps
 
+Apply the postgres yaml file
 ```
 kubectl apply -f nexus.yaml
 ```
@@ -93,19 +106,19 @@ In the nexus portal
 - update dasmon.json that located in /etc/docker. Add/Append saturn:30088 in the insecure-registries
 
 ### Jenkins
-The jenkins support java and python project
-
+The jenkins support to build java and python projects
 
 #### Local user/group
-- Username (UID): 
-- Group (GID): 
+- Username (UID): cicd-jenkins (970)
+- Group (GID): cicd (5000)
 
 #### Storage
-- Path:
+- Path: /mnt/saturn-cicd-sec/jenkins
 - Size (GB): 150GB
 
 #### Steps
 
+Apply the jenkins yaml file
 ```
 kubectl apply -f jenkins.yaml
 ```
@@ -114,18 +127,25 @@ kubectl apply -f jenkins.yaml
 - Create secret file
 - Additional Plugins
     - Configure Manager
-- Maven (v?)
-    - Setting file for repo
-- Docker (v?)
-    - 
+- Maven (3.9.16)
+    - Setting file for repo    
+- Docker (29.7.2)
+    
 
-### Dependency-Track
+### Dependency-Track (API)
+<To be filled>
+
 #### Local user/group
-- Username (UID): 
-- Group (GID): 
+- Username (UID): cicd-dependency-track (966)
+- Group (GID): cicd (5000)
 
 #### Storage
-- Path:
-- Size (GB):
+- Path: /mnt/saturn-cicd-sec/dependency-track
+- Size (GB): 20
 
-### 
+### Steps
+
+Apply the dependency-track yaml fil
+```
+kubectl apply -f dependency-track.yaml
+```
