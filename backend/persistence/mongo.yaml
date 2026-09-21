@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: postgres-pv
+  name: backend-mongo-pv
 spec:
   capacity:
     storage: 30Gi
@@ -9,15 +9,15 @@ spec:
     - ReadWriteOnce
   persistentVolumeReclaimPolicy: Retain
   hostPath:
-    path: /opt/saturn-middleware/postgres
+    path: /opt/saturn-backend/mongo
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: postgres-pv-claim
-  namespace: saturn-app
+  name: backend-mongo-pv-claim
+  namespace: saturn-backend
   labels:
-    app: postgres
+    app: mongo
 spec:
   accessModes:
     - ReadWriteOnce
@@ -28,57 +28,57 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: postgres
-  namespace: saturn-app
+  name: mongo
+  namespace: saturn-backend
 spec:
   replicas: 1
   strategy:
     type: Recreate
   selector:
     matchLabels:
-      app: postgres
+      app: mongo
   template:
     metadata:
       labels:
-        app: postgres
+        app: mongo
     spec:
       securityContext:
-        runAsUser: 967
-        runAsGroup: 5000
-        fsGroup: 5000
+        runAsUser: 965
+        runAsGroup: 5002
+        fsGroup: 5002
       containers:
-      - name: postgres
-        image: postgres:18.3
+      - name: mongo
+        image: mongo:8.3.11
         ports:
-        - containerPort: 5432
+        - containerPort: 27017
         env:
-        - name: POSTGRES_PASSWORD
+        - name: MONGO_INITDB_ROOT_PASSWORD
           valueFrom:
             secretKeyRef:
-              name: postgres-user-pass
+              name: mongo-user-pass
               key: password
-        - name: POSTGRES_USER
+        - name: MONGO_INITDB_ROOT_USERNAME
           valueFrom:
             secretKeyRef:
-              name: postgres-user-pass
+              name: mongo-user-pass
               key: username
         volumeMounts:
-        - name: postgres-persistent-storage
-          mountPath: /var/lib/postgresql/18/docker
+        - name: backend-mongo-persistent-storage
+          mountPath: /data/db
       volumes:
-      - name: postgres-persistent-storage
+      - name: backend-mongo-persistent-storage
         persistentVolumeClaim:
-          claimName: postgres-pv-claim
+          claimName: backend-mongo-pv-claim
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: postgres-service
-  namespace: saturn-app
+  name: mongo-service
+  namespace: saturn-backend
 spec:
   selector:
-    app: postgres
+    app: mongo
   ports:
     - protocol: TCP
-      port: 5432
-      targetPort: 5432
+      port: 27017
+      targetPort: 27017

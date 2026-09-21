@@ -1,0 +1,97 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: openwebui-pv
+spec:
+  capacity:
+    storage: 10Gi
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  hostPath:
+    path: /opt/saturn-frontend/openwebui
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: openwebui-pvc
+  namespace: saturn-frontend
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: openwebui
+  namespace: saturn-frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: openwebui
+  template:
+    metadata:
+      labels:
+        app: openwebui
+    spec:
+      securityContext:
+        runAsUser: 964
+        runAsGroup: 5001
+        fsGroup: 5001
+      containers:
+        - name: openwebui
+          image: ghcr.io/open-webui/open-webui:main
+          ports:
+            - containerPort: 8080
+          env:
+            - name: OLLAMA_BASE_URL
+              value: "http://ollama.saturn-backend.svc.cluster.local:11434"
+            - name: WEBUI_SECRET_KEY
+              value: "jgadgiduteraiutadgdaflgusddagsd9"
+          volumeMounts:
+            - name: open-webui
+              mountPath: /app/backend/data
+      volumes:
+        - name: open-webui
+          persistentVolumeClaim:
+            claimName: openwebui-pvc
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: openwebui-service
+  namespace: saturn-frontend
+spec:
+  selector:
+    app: openwebui
+  ports:
+    - name: http
+      port: 8080
+      targetPort: 8080
+---
+apiVersion: networking.k8s.io/v1 # Note: Standardizing for your version
+kind: Ingress
+metadata:
+  name: openwebui-ingress
+  namespace: saturn-frontend
+  annotations:
+    kubernetes.io/ingress.class: nginx    
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+spec:
+  ingressClassName: nginx
+  rules:
+  # - host: 192.168.0.133
+  - http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: openwebui-service
+            port:
+              number: 8080
