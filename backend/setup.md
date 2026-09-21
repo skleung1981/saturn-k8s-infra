@@ -30,25 +30,51 @@ The backend is about the shared service for applications such as RabbitMQ, Redis
 
 ### SQL - Postgresql 
 
+Create a secret  and apply the postgres yaml file
 ```
-kubectl apply -f postgres.yaml
+kubectl create secret generic postgres-user-pass \
+--namespace saturn-backend \
+--from-literal=username=<Your username> \
+--from-literal=password='<Your Password>'
+
+kubectl apply -f backend/persistence/postgres.yaml
 ```
 
 ### No-SQL - Mongo
 
 ```
-kubectl apply -f mongo.yaml
+kubectl create secret generic mongo-user-pass \
+--namespace saturn-backend \
+--from-literal=username=<Your username> \
+--from-literal=password='<Your Password>'
+
+kubectl apply -f backend/persistence/mongo.yaml
 ```
 
-### Memory Based - Redis
+### Memory Based - Valkey
 
 ```
-kubectl apply -f redis.yaml
+kubectl create secret generic valkey-user-pass \
+--namespace saturn-backend \
+--from-literal=username=<Your username> \
+--from-literal=password='<Your Password>'
+
+
+kubectl apply -f backend/persistence/valkey.yaml
 ```
 
 ## Message Service
 
 ### RabbitMQ
+
+```
+kubectl create secret generic rabbitmq-user-pass \
+--namespace saturn-backend \
+--from-literal=username=<Your username> \
+--from-literal=password='<Your Password>'
+
+kubectl apply -f backend/message/rabbitmq.yaml
+```
 
 ### Kafka
 
