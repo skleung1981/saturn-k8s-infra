@@ -1,6 +1,6 @@
 # Installation Guide for Saturn Backend Components
 
-The backend is about the shared service for applications such as RabbitMQ, Redis, Mongo and Postgres
+The backend is about the shared services such as RabbitMQ, Valkey, Mongo and Postgres.
 
 ## Pre-requisite
 
@@ -20,7 +20,7 @@ The backend is about the shared service for applications such as RabbitMQ, Redis
     ```
     mkdir -p /opt/saturn-backend/
     cd /opt/saturn-backend/
-    mkdir postgres mongo redis rabbitmq kafka ollama
+    mkdir postgres mongo valkey rabbitmq kafka ollama
     sudo groupadd -g 5002 saturn-backend
     sudo useradd -u 965 -g saturn-backend saturn-backend-user
     sudo chown -R saturn-backend-user:saturn-backend saturn-backend
@@ -30,7 +30,7 @@ The backend is about the shared service for applications such as RabbitMQ, Redis
 
 ### SQL - Postgresql 
 
-Create a secret  and apply the postgres yaml file
+Create a secret and apply the postgres yaml file
 ```
 kubectl create secret generic postgres-user-pass \
 --namespace saturn-backend \
@@ -59,7 +59,6 @@ kubectl create secret generic valkey-user-pass \
 --from-literal=username=<Your username> \
 --from-literal=password='<Your Password>'
 
-
 kubectl apply -f backend/persistence/valkey.yaml
 ```
 
@@ -77,7 +76,7 @@ kubectl apply -f backend/message/rabbitmq.yaml
 ```
 
 ### Kafka
-
+**TBC**
 
 ## LLM Service
 
@@ -86,19 +85,28 @@ kubectl apply -f backend/message/rabbitmq.yaml
 To install Ollama
 
 ```
-kubectl apply -f backend/llm/ollama.yaml
+kubectl apply -f backend/ai/llm/ollama.yaml
 ```
 
-After the pod is running, run the following command to load model
-
-```
-kubectl -n saturn-backend exec -it deploy/ollama -- ollama pull gpt-oss:20b
-```
+After the pod is running, run the following command to load model (e.g. gpt-oss:20b)
 
 ```
 kubectl -n saturn-backend exec -it deploy/ollama -- ollama pull gpt-oss:20b
+```
 
-or
+## Search Service
+### Searxng
 
-kubectl -n saturn-backend exec -it deploy/ollama -- ollama pull gemma4:e4b
+It is required when access internet by OpenWebUI is required.
+
+To install Searxng, please do the following steps
+
+```
+kubectl create secret generic searxng-secret \
+  --from-literal=SEARXNG_SECRET="$(openssl rand -hex 32)" \
+  -n saturn-backend
+```
+
+```
+kubectl apply -f backend/ai/search/searxng.yaml
 ```

@@ -26,53 +26,14 @@ The frontend is about the services for applications such as OpenWebUI
     sudo chown -R saturn-frontend-user:saturn-frontend saturn-frontend
     ```
 
-## Persistence Storage
 
-### SQL - Postgresql 
+## OpenWebUI Service
 
-```
-kubectl apply -f postgres.yaml
-```
+### OpenWebUI
 
-### No-SQL - Mongo
+To install OpenWebUI
 
 ```
-kubectl apply -f mongo.yaml
+kubectl apply -f frontend/ai/llm/openwebui.yaml
 ```
 
-### Memory Based - Redis
-
-```
-kubectl apply -f redis.yaml
-```
-
-## Message Service
-
-### RabbitMQ
-
-### Kafka
-
-
-## LLM Service
-
-### Ollama
-
-To install Ollama
-
-```
-kubectl apply -f backend/llm/ollama.yaml
-```
-
-After the pod is running, run the following command to load model
-
-```
-kubectl -n saturn-backend exec -it deploy/ollama -- ollama pull gpt-oss:20b
-```
-
-```
-kubectl -n saturn-backend exec -it deploy/ollama -- ollama pull gpt-oss:20b
-
-or
-
-kubectl -n saturn-backend exec -it deploy/ollama -- ollama pull gemma4:e4b
-```
