@@ -26,13 +26,21 @@ The frontend is about the services for applications such as OpenWebUI
     sudo chown -R saturn-frontend-user:saturn-frontend saturn-frontend
     ```
 
-
 ## OpenWebUI Service
+OpenWebUI here is considered as frontend application. 
 
 ### OpenWebUI
 
-To install OpenWebUI
+To install OpenWebUI, do the following steps
 
+Generate a secret key first (Do once only)
+```
+kubectl create secret generic openwebui-secret \
+  --from-literal=OPENWEBUI_SECRET="$(openssl rand -hex 32)" \
+  -n saturn-frontend
+```
+
+Apply the YAML file
 ```
 kubectl apply -f frontend/ai/llm/openwebui.yaml
 ```

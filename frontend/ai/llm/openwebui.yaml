@@ -44,20 +44,23 @@ spec:
         fsGroup: 5001
       containers:
         - name: openwebui
-          image: ghcr.io/open-webui/open-webui:main
+          image: ghcr.io/open-webui/open-webui:0.11.4
           ports:
             - containerPort: 8080
           env:
             - name: OLLAMA_BASE_URL
-              value: "http://ollama.saturn-backend.svc.cluster.local:11434"
-            - name: WEBUI_SECRET_KEY
-              value: "jgadgiduteraiutadgdaflgusddagsd9"
+              value: "http://ollama-service.saturn-backend.svc.cluster.local:11434"
             - name: ENABLE_WEB_SEARCH
               value: "true"
             - name: WEB_SEARCH_ENGINE
               value: "searxng"
             - name: SEARXNG_QUERY_URL
               value: "http://searxng-service.saturn-backend.svc.cluster.local:8080/search?q=<query>"
+            - name: WEBUI_SECRET_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: openwebui-secret
+                  key: OPENWEBUI_SECRET
           volumeMounts:
             - name: open-webui
               mountPath: /app/backend/data
