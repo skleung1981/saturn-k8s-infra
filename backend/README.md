@@ -30,7 +30,7 @@ The backend is about the shared services such as RabbitMQ, Valkey, Mongo and Pos
 
 ### SQL - Postgresql 
 
-Create a secret and apply the postgres yaml file
+Create a secret and apply the postgres yaml file (Do once only)
 ```
 kubectl create secret generic postgres-user-pass \
 --namespace saturn-backend \
@@ -42,6 +42,7 @@ kubectl apply -f backend/persistence/postgres.yaml
 
 ### No-SQL - Mongo
 
+Create a secret and apply the mongo yaml file (Do once only)
 ```
 kubectl create secret generic mongo-user-pass \
 --namespace saturn-backend \
@@ -53,6 +54,7 @@ kubectl apply -f backend/persistence/mongo.yaml
 
 ### Memory Based - Valkey
 
+Create a secret and apply the valkey yaml file (Do once only)
 ```
 kubectl create secret generic valkey-user-pass \
 --namespace saturn-backend \
@@ -66,6 +68,7 @@ kubectl apply -f backend/persistence/valkey.yaml
 
 ### RabbitMQ
 
+Create a secret and apply the rabbitmq yaml file (Do once only)
 ```
 kubectl create secret generic rabbitmq-user-pass \
 --namespace saturn-backend \
@@ -101,12 +104,14 @@ It is required when access internet by OpenWebUI is required.
 
 To install Searxng, please do the following steps
 
+Generate a secret key first (Do once only)
 ```
 kubectl create secret generic searxng-secret \
   --from-literal=SEARXNG_SECRET="$(openssl rand -hex 32)" \
   -n saturn-backend
 ```
 
+Apply the YAML file
 ```
 kubectl apply -f backend/ai/search/searxng.yaml
 ```
