@@ -45,6 +45,7 @@ kubectl create namespace saturn-cicd
 
 #### Import the Self-signed cert to K8S 
 
+Create a secret fo the self-signed cert. (Do once only)
 ```
 kubectl create secret tls saturn-ingress-tls --cert=saturn-local.cert.pem --key=saturn-local.key.pem -n saturn-cicd
 
@@ -79,7 +80,7 @@ Make sure a correct permission is applied.
 
 #### Steps
 
-Create a secret in K8S and apply the postgres yaml file
+Create a secret in K8S and apply the postgres yaml file (Do once only)
 ```
 kubectl create secret generic postgres-user-pass \
 --namespace saturn-cicd \
