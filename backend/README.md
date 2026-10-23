@@ -1,6 +1,6 @@
 # Installation Guide for Saturn Backend Components
 
-The backend is about the shared services such as RabbitMQ, Valkey, Mongo and Postgres.
+The backend is about the shared services such as RabbitMQ, Valkey, Mongo, Postgres and other applications
 
 ## Pre-requisite
 
