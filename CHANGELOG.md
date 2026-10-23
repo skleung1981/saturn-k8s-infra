@@ -1,6 +1,23 @@
 
 # CHANGE LOG
 
+v2.0.0 - Frontend and Backend Applications for saturn-backend/saturn-frontend and DevOps
+- Frontend
+  - OpenWebUI
+- Backend 
+  - Persistence
+    - Mongo
+    - Postgres
+    - Valkey
+  - Message
+    - RabbitMQ
+  - AI
+    - LLM 
+      - Ollama
+      - SearXNG
+- GitOps
+  - Setup steps for Argo CD
+
 v1.0.0 - First full setup for saturn ci/cd locally
 - Postgres
     - Major Persistence Storage

@@ -87,7 +87,7 @@ kubectl create secret generic postgres-user-pass \
 --from-literal=username=<Your username> \
 --from-literal=password='<Your Password>'
 
-kubectl apply -f postgres.yaml
+kubectl apply -f cicd/postgres.yaml
 ```
 
 ### Nexus
@@ -105,7 +105,7 @@ kubectl apply -f postgres.yaml
 
 Apply the postgres yaml file
 ```
-kubectl apply -f nexus.yaml
+kubectl apply -f cicd/nexus.yaml
 ```
 
 In the nexus portal
@@ -129,7 +129,7 @@ The jenkins support to build java and python projects
 
 Apply the jenkins yaml file
 ```
-kubectl apply -f jenkins.yaml
+kubectl apply -f cicd/jenkins.yaml
 ```
 
 #### Installed Tool
@@ -157,5 +157,5 @@ kubectl apply -f jenkins.yaml
 
 Apply the dependency-track yaml fil
 ```
-kubectl apply -f dependency-track.yaml
+kubectl apply -f cicd/dependency-track.yaml
 ```
