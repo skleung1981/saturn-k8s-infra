@@ -37,7 +37,7 @@ kubectl create secret generic postgres-user-pass \
 --from-literal=username=<Your username> \
 --from-literal=password='<Your Password>'
 
-kubectl apply -f backend/persistence/postgres.yaml
+kubectl apply -f backend/persistence/postgres/postgres.yaml
 ```
 
 ### No-SQL - Mongo
@@ -49,7 +49,7 @@ kubectl create secret generic mongo-user-pass \
 --from-literal=username=<Your username> \
 --from-literal=password='<Your Password>'
 
-kubectl apply -f backend/persistence/mongo.yaml
+kubectl apply -f backend/persistence/mongo/mongo.yaml
 ```
 
 ### Memory Based - Valkey
@@ -61,7 +61,7 @@ kubectl create secret generic valkey-user-pass \
 --from-literal=username=<Your username> \
 --from-literal=password='<Your Password>'
 
-kubectl apply -f backend/persistence/valkey.yaml
+kubectl apply -f backend/persistence/valkey/valkey.yaml
 ```
 
 ## Message Service
@@ -75,7 +75,7 @@ kubectl create secret generic rabbitmq-user-pass \
 --from-literal=username=<Your username> \
 --from-literal=password='<Your Password>'
 
-kubectl apply -f backend/message/rabbitmq.yaml
+kubectl apply -f backend/message/rabbitmq/rabbitmq.yaml
 ```
 
 ### Kafka
@@ -88,7 +88,7 @@ kubectl apply -f backend/message/rabbitmq.yaml
 To install Ollama
 
 ```
-kubectl apply -f backend/ai/llm/ollama.yaml
+kubectl apply -f backend/ai/llm/ollama/ollama.yaml
 ```
 
 After the pod is running, run the following command to load model (e.g. gpt-oss:20b)

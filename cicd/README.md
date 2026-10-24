@@ -54,16 +54,25 @@ kubectl create secret tls saturn-ingress-tls --cert=saturn-local.cert.pem --key=
 #### Install and Update the ingress nginx controller
 
 ```
-helm install my-ingress ingress-nginx/ingress-nginx -n ingress-nginx -f ingress-values.yaml
+helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
+helm repo update
+
+helm upgrade --install my-ingress ingress-nginx/ingress-nginx -n ingress-nginx --create-namespace
 ```
 
+Set the self-signed cert and update the ip address using host ip address(e.g. 192.168.0.133)
+1. Get the CHART version (e.g. 4.14.2)
+2. Set the self-signed cert. if it is not same namespace, include the namespace (e.g. saturn-cicd/saturn-ingress-tls)
 ```
-kubectl edit deployment my-ingress-ingress-nginx-controller -n ingress-nginx
-```
+kubectl get pods -n ingress-nginx
+helm list -n ingress-nginx
 
-Add the following line in the args section
-```
---default-ssl-certificate=saturn-cicd/saturn-ingress-tls
+helm upgrade my-ingress ingress-nginx/ingress-nginx -n ingress-nginx \
+  --version <ingress-chart-version> \
+  --reuse-values \
+  --set controller.publishService.enabled=false \
+  --set controller.extraArgs.publish-status-address=<Host IP address> \
+  --set controller.extraArgs.default-ssl-certificate=<Self Signed Cert with namespace>
 ```
 
 ### Postgres
