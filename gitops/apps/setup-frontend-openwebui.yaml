@@ -1,14 +1,18 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: mongo
+  name: openwebui
   namespace: saturn-gitops
 spec:
   project: saturn
   source:
     repoURL: http://forgejo-service.saturn-cicd.svc.cluster.local:3000/myskl/saturn-k8s-infra.git
     targetRevision: main
-    path: backend/persistence/mongo
+    path: frontend/ai/llm/openwebui
   destination:
     server: https://kubernetes.default.svc
-    namespace: saturn-backend
+    namespace: saturn-frontend
+  syncPolicy:
+    automated:
+      selfHeal: true
+      prune: true

@@ -1,14 +1,18 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: valkey
+  name: root
   namespace: saturn-gitops
 spec:
-  project: saturn
+  project: default
   source:
     repoURL: http://forgejo-service.saturn-cicd.svc.cluster.local:3000/myskl/saturn-k8s-infra.git
     targetRevision: main
-    path: backend/persistence/valkey
+    path: gitops/apps
   destination:
     server: https://kubernetes.default.svc
-    namespace: saturn-backend
+    namespace: saturn-gitops
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true

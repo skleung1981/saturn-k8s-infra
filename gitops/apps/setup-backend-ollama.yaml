@@ -1,14 +1,18 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: openwebui
+  name: ollama
   namespace: saturn-gitops
 spec:
   project: saturn
   source:
     repoURL: http://forgejo-service.saturn-cicd.svc.cluster.local:3000/myskl/saturn-k8s-infra.git
     targetRevision: main
-    path: frontend/ai/llm/openwebui
+    path: backend/ai/llm/ollama
   destination:
     server: https://kubernetes.default.svc
-    namespace: saturn-frontend
+    namespace: saturn-backend
+  syncPolicy:
+    automated:
+      selfHeal: true
+      prune: true
