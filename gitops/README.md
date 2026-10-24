@@ -1,5 +1,6 @@
 # Installation Guide for Saturn GitOps
 
+## Installation
 Argo CD is used for saturn gitops.
 
 ```
@@ -26,3 +27,24 @@ kubectl port-forward -n saturn-gitops svc/argocd-server 9000:443
 Access it via https://localhost:9000
 Username: admin
 Password: <found it in the previous step>
+
+## Setup Repository
+
+Get the username and password from forgejo to setup-repo.yaml and apply it. Make sure not checkin the file with plain-text password
+```
+kubectl apply -f gitops/setup-repo.yaml
+```
+ 
+## Setup Projects
+
+Create Projects for saturn-frontend and saturn-backend
+```
+kubectl apply -f gitops/setup-projects.yaml
+```
+
+## Setup applications
+
+### SearXNG
+```
+kubectl apply -f gitops/setup-backend-searxng.yaml
+```

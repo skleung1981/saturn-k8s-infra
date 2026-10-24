@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: repo-saturn-k8s-infra
+  namespace: saturn-gitops
+  labels:
+    argocd.argoproj.io/secret-type: repository
+stringData:
+  type: git
+  url: http://forgejo-service.saturn-cicd.svc.cluster.local:3000/myskl/saturn-k8s-infra.git
+  username: saturn-devops
+  password: <Please fill it if necessary and do not checkin to source control with plain password!>
