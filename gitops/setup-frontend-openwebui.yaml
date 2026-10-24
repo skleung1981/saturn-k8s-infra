@@ -8,7 +8,7 @@ spec:
   source:
     repoURL: http://forgejo-service.saturn-cicd.svc.cluster.local:3000/myskl/saturn-k8s-infra.git
     targetRevision: main
-    path: frontend/ai/llm
+    path: frontend/ai/llm/openwebui
   destination:
     server: https://kubernetes.default.svc
     namespace: saturn-frontend

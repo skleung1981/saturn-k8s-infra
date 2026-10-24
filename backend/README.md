@@ -113,5 +113,5 @@ kubectl create secret generic searxng-secret \
 
 Apply the YAML file
 ```
-kubectl apply -f backend/ai/search/searxng.yaml
+kubectl apply -f backend/ai/rag/searxng/searxng.yaml
 ```
