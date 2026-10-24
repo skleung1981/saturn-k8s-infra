@@ -1,14 +1,18 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: ollama
+  name: rabbitmq
   namespace: saturn-gitops
 spec:
   project: saturn
   source:
     repoURL: http://forgejo-service.saturn-cicd.svc.cluster.local:3000/myskl/saturn-k8s-infra.git
     targetRevision: main
-    path: backend/ai/llm/ollama
+    path: backend/message/rabbitmq
   destination:
     server: https://kubernetes.default.svc
     namespace: saturn-backend
+  syncPolicy:
+    automated:
+      selfHeal: true
+      prune: true

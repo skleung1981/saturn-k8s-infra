@@ -49,45 +49,54 @@ kubectl apply -f gitops/setup-repo.yaml
 
 Create Projects for saturn-frontend and saturn-backend
 ```
-kubectl apply -f gitops/setup-projects.yaml
+kubectl apply -f gitops/apps/setup-projects.yaml
 ```
 
 ## Setup applications
 
 ### SearXNG
 ```
-kubectl apply -f gitops/setup-backend-searxng.yaml
+kubectl apply -f gitops/apps/setup-backend-searxng.yaml
 ```
 
 ### OpenWebUI
 
 ```
-kubectl apply -f gitops/setup-frontend-openwebui.yaml
+kubectl apply -f gitops/apps/setup-frontend-openwebui.yaml
 ```
 
 ### RabbitMQ
 
 ```
-kubectl apply -f gitops/setup-backend-rabbitmq.yaml
+kubectl apply -f gitops/apps/setup-backend-rabbitmq.yaml
 ```
 
 ### Mongo
 
 ```
-kubectl apply -f gitops/setup-backend-mongo.yaml
+kubectl apply -f gitops/apps/setup-backend-mongo.yaml
 ```
 
 ### Valkey
 
 ```
-kubectl apply -f gitops/setup-backend-valkey.yaml
+kubectl apply -f gitops/apps/setup-backend-valkey.yaml
 ```
 
 ### Postgres
 
 ```
-kubectl apply -f gitops/setup-backend-postgres.yaml
+kubectl apply -f gitops/apps/setup-backend-postgres.yaml
 ```
 
-
 ### Ollama
+
+```
+kubectl apply -f gitops/apps/setup-backend-ollama.yaml
+```
+
+In fact, if root-app.yaml is applied as well, it is not necessary to apply it manual because Argo CD will do it for you if repo is changed.
+```
+kubectl apply -f gitops/root-app.yaml
+```
+
