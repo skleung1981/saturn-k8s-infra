@@ -1,14 +1,14 @@
 # Installation Guide for Saturn GitOps
 
 ## Installation
-Argo CD is used for saturn gitops.
+Argo CD is used for DevOps workflow. Unlike standard installation, A specific namespace `saturn-gitops` is used.
 
+### Create Namespace (saturn-gitops)
 ```
 kubectl create namespace saturn-gitops
 kubectl apply -n saturn-gitops -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
-
 ```
-
+### Install Argo CD
 ```
 kubectl apply -n saturn-gitops --server-side --force-conflicts \
   -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
@@ -27,6 +27,16 @@ kubectl port-forward -n saturn-gitops svc/argocd-server 9000:443
 Access it via https://localhost:9000
 Username: admin
 Password: <found it in the previous step>
+
+**Correct the namespace**
+Due to not use the default namespace, additional steps is required to make sure that it is able to access the cluster.
+
+```
+for crb in argocd-application-controller argocd-applicationset-controller argocd-server; do
+  kubectl patch clusterrolebinding $crb --type json \
+    -p '[{"op":"replace","path":"/subjects/0/namespace","value":"saturn-gitops"}]'
+done 
+```
 
 ## Setup Repository
 
@@ -48,3 +58,36 @@ kubectl apply -f gitops/setup-projects.yaml
 ```
 kubectl apply -f gitops/setup-backend-searxng.yaml
 ```
+
+### OpenWebUI
+
+```
+kubectl apply -f gitops/setup-frontend-openwebui.yaml
+```
+
+### RabbitMQ
+
+```
+kubectl apply -f gitops/setup-backend-rabbitmq.yaml
+```
+
+### Mongo
+
+```
+kubectl apply -f gitops/setup-backend-mongo.yaml
+```
+
+### Valkey
+
+```
+kubectl apply -f gitops/setup-backend-valkey.yaml
+```
+
+### Postgres
+
+```
+kubectl apply -f gitops/setup-backend-postgres.yaml
+```
+
+
+### Ollama
