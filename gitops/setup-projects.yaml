@@ -1,0 +1,17 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: saturn
+  namespace: saturn-gitops
+spec:
+  description: Saturn frontend and backend workloads
+  sourceRepos:
+    - http://forgejo-service.saturn-cicd.svc.cluster.local:3000/myskl/saturn-k8s-infra.git
+  destinations:
+    - server: https://kubernetes.default.svc
+      namespace: saturn-frontend
+    - server: https://kubernetes.default.svc
+      namespace: saturn-backend
+  clusterResourceWhitelist:
+    - group: ""
+      kind: PersistentVolume

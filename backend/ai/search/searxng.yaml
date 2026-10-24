@@ -34,7 +34,7 @@ spec:
         fsGroup: 5002
       containers:
         - name: searxng
-          image: searxng/searxng:latest
+          image: searxng/searxng:2026.10.24-ef0ec03da
           ports:
             - containerPort: 8080
           volumeMounts:

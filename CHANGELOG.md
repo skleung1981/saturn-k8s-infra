@@ -1,5 +1,6 @@
 
 # CHANGE LOG
+v3.0.0 - Use Argo CD for saturn-frontend and saturn-backend
 
 v2.0.0 - Frontend and Backend Applications for saturn-backend/saturn-frontend and DevOps
 - Frontend
