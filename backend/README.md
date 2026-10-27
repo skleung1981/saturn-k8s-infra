@@ -78,8 +78,13 @@ kubectl create secret generic rabbitmq-user-pass \
 kubectl apply -f backend/message/rabbitmq/rabbitmq.yaml
 ```
 
+## Event Service
+
 ### Kafka
-**TBC**
+
+```
+kubectl apply -f backend/event/kafka/kafka.yaml
+```
 
 ## LLM Service
 
