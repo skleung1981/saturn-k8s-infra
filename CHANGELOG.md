@@ -1,5 +1,15 @@
 
 # CHANGE LOG
+
+v3.2.0 - Folder structure change, postgres upgrade, ci/cd components upgrade
+- Change Backend Postgres Image to pgvector/pgvector:pg18 (Support Vector)
+- Re-structure folder under gitops
+  - Platform applications (e.g. postgres, rabbitmq, kafka, mongo) belongs to gitops/platforms
+  - Project application belongs to gitops/apps
+- CI/CD
+  - Jenkins version from 2.580-jdk25 to 2.588-jdk25
+  - Nexus version from 3.89.0 to 3.96.5
+
 v3.1.0 - Install Apache Kafka for saturn-backend
 
 v3.0.0 - Use Argo CD for saturn-frontend and saturn-backend
