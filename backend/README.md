@@ -22,15 +22,18 @@ The backend is about the shared services such as RabbitMQ, Valkey, Mongo, Postgr
     - Each application may own one or more than one secret
 
 - User permission
-    - Try to use single user to own all backend components
+    - Try to use single user (saturn-backend-user) to own all backend components
     ```
     mkdir -p /opt/saturn-backend/
     cd /opt/saturn-backend/
-    mkdir postgres mongo valkey rabbitmq kafka ollama
+    mkdir kafka mongo ollama postgres rabbitmq searxng valkey   
     sudo groupadd -g 5002 saturn-backend
     sudo useradd -u 965 -g saturn-backend saturn-backend-user
     sudo chown -R saturn-backend-user:saturn-backend saturn-backend
     ```
+  
+## Notice
+Besides deploy it manually with below steps, all components are managed by Argo CD. Please also read the REAMDE.md under gitops folder
 
 ## Persistence Storage
 
@@ -125,4 +128,11 @@ kubectl create secret generic searxng-secret \
 Apply the YAML file
 ```
 kubectl apply -f backend/ai/rag/searxng/searxng.yaml
+```
+
+## Individual Applications
+### UK Weather Services
+
+```
+kubectl apply -f backend/apps/uk-weather-services/uk-weather-services.yaml
 ```

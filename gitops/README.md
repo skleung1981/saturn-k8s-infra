@@ -54,49 +54,64 @@ kubectl apply -f gitops/platforms/setup-projects.yaml
 
 ## Setup applications
 
-### SearXNG
+### Platform Applications
+
+It is not necessary to apply it manually because Argo CD will do it for you if repo is changed.  
+```
+kubectl apply -f gitops/root-platform.yaml
+```
+However, it is still possible to apply it manually
+
+#### SearXNG
 ```
 kubectl apply -f gitops/platforms/setup-backend-searxng.yaml
 ```
 
-### OpenWebUI
+#### OpenWebUI
 
 ```
 kubectl apply -f gitops/platforms/setup-frontend-openwebui.yaml
 ```
 
-### RabbitMQ
+#### RabbitMQ
 
 ```
 kubectl apply -f gitops/platforms/setup-backend-rabbitmq.yaml
 ```
 
-### Mongo
+#### Mongo
 
 ```
 kubectl apply -f gitops/platforms/setup-backend-mongo.yaml
 ```
 
-### Valkey
+#### Valkey
 
 ```
 kubectl apply -f gitops/platforms/setup-backend-valkey.yaml
 ```
 
-### Postgres
+#### Postgres
 
 ```
 kubectl apply -f gitops/platforms/setup-backend-postgres.yaml
 ```
 
-### Ollama
+#### Ollama
 
 ```
 kubectl apply -f gitops/platforms/setup-backend-ollama.yaml
 ```
 
-In fact, if root-app.yaml is applied as well, it is not necessary to apply it manual because Argo CD will do it for you if repo is changed.
-```
-kubectl apply -f gitops/root-platform.yaml
-```
+### Individual Applications
 
+It is not necessary to apply it manually because Argo CD will do it for you if repo is changed.
+```
+kubectl apply -f gitops/root-apps.yaml
+```
+However, it is still possible to apply it manually
+
+#### UK Weather Services
+```
+kubectl apply -f gitops/apps/setup-backend-app-uk-weather-services.yaml
+```

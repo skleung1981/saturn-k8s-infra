@@ -21,7 +21,7 @@ spec:
         fsGroup: 5002
       containers:
         - name: uk-weather-services
-          image: saturn:30088/uk_weather_service:0.1.6
+          image: saturn:30088/uk-weather-services:0.1.7
           ports:
             - containerPort: 8000
           env:
