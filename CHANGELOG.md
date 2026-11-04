@@ -1,6 +1,10 @@
 
 # CHANGE LOG
 
+v3.3.0 - Add new applications
+- Add apps folder for individual applications
+- Add uk_weather
+
 v3.2.0 - Folder structure change, postgres upgrade, ci/cd components upgrade
 - Change Backend Postgres Image to pgvector/pgvector:pg18 (Support Vector)
 - Re-structure folder under gitops

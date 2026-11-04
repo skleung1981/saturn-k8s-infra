@@ -13,8 +13,14 @@ The backend is about the shared services such as RabbitMQ, Valkey, Mongo, Postgr
         ```
 
 - Secrets
+    - For saturn nexus, a secret is required if image is pull from saturn nexus
+    ```
+    kubectl create secret docker-registry nexus-registry-cred -n saturn-backend \
+    --docker-server=saturn:30088 \
+    --docker-username=<user> --docker-password=<password>
+    ```
     - Each application may own one or more than one secret
-        
+
 - User permission
     - Try to use single user to own all backend components
     ```

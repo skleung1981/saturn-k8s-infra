@@ -1,0 +1,74 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: uk-weather-services
+  namespace: saturn-backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: uk-weather-services
+  template:
+    metadata:
+      labels:
+        app: uk-weather-services
+    spec:
+      imagePullSecrets:
+        - name: nexus-registry-cred
+      securityContext:
+        runAsUser: 965
+        runAsGroup: 5002
+        fsGroup: 5002
+      containers:
+        - name: uk-weather-services
+          image: saturn:30088/uk_weather_service:0.1.6
+          ports:
+            - containerPort: 8000
+          env:
+            - name: MET_OFFICE_WARNING_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: uk-weather-api-keys
+                  key: warnings-api-key
+            - name: MET_OFFICE_SITE_SPECIFIC_GLOBAL_SPOT_DATA_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: uk-weather-api-keys
+                  key: spot-data-api-key
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: uk-weather-services-service
+  namespace: saturn-backend
+spec:
+  selector:
+    app: uk-weather-services
+  ports:
+    - port: 8080
+      targetPort: 8000
+---
+apiVersion: networking.k8s.io/v1 # Note: Standardizing for your version
+kind: Ingress
+metadata:
+  name: uk-weather-services-ingress
+  namespace: saturn-backend
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/use-regex: "true"
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
+spec:
+  ingressClassName: nginx
+  rules:
+    # - host: 192.168.0.133
+    - http:
+        paths:
+          - path: /backend/uk-weather-services(/|$)(.*)
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: uk-weather-services-service
+                port:
+                  number: 8080
