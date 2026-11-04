@@ -16,6 +16,9 @@ It is about my new pc 'saturn' that I try to build my local CI/CD environment an
 - DevOps/GitOps
   - Argo CD is used for the whole GitOps process.
 
+
+![](./images/saturn-architecture.png)
+
 ### CI (folder: cicd)
 Currently, the following are installed
 - Forgejo 
