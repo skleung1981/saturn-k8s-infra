@@ -1,9 +1,12 @@
 
 # CHANGE LOG
 
+v3.3.1 - Context Change
+- UK weather service docker image changed
+
 v3.3.0 - Add new applications
 - Add apps folder for individual applications
-- Add uk_weather
+- Add uk-weather-services as first application
 
 v3.2.0 - Folder structure change, postgres upgrade, ci/cd components upgrade
 - Change Backend Postgres Image to pgvector/pgvector:pg18 (Support Vector)
